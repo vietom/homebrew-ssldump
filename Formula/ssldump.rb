@@ -19,8 +19,9 @@ class Ssldump < Formula
     ENV["LIBS"] = "-lssl -lcrypto"
 
     # .dylib, not .a
-    inreplace "configure", "if test -f $dir/libpcap.a; then",
-                           "if test -f $dir/libpcap.dylib; then"
+    #inreplace "configure", "if test -f $dir/libpcap.a; then",
+                           #"if test -f $dir/libpcap.dylib; then"
+	inreplace "configure", "libpcap.a", "libpcap.dylib"
 
     openssl = Formula.factory('openssl')
 
