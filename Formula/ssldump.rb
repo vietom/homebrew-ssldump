@@ -2,8 +2,8 @@ require 'formula'
 
 class Ssldump < Formula
   homepage 'http://www.rtfm.com/ssldump/'
-  url 'http://www.rtfm.com/ssldump/ssldump-0.9b3.tar.gz'
-  sha1 'a633a9a811a138eac5ed440d583473b644135ef5'
+  url 'https://downloads.sourceforge.net/project/ssldump/ssldump/0.9b3/ssldump-0.9b3.tar.gz?r=http%3A%2F%2Fssldump.sourceforge.net%2F&ts=1508313534&use_mirror=excellmedia'
+  sha256 '6422c16718d27c270bbcfcc1272c4f9bd3c0799c351f1d6dd54fdc162afdab1e'
 
   depends_on 'openssl'
 
