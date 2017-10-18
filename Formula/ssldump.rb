@@ -40,8 +40,9 @@ class Ssldump < Formula
 end
 
 __END__
---- a/base/pcap-snoop.c	2010-03-18 22:59:13.000000000 -0700
-+++ b/base/pcap-snoop.c	2010-03-18 22:59:30.000000000 -0700
+diff -Naur a/base/pcap-snoop.c b/base/pcap-snoop.c
+--- a/base/pcap-snoop.c	2002-09-10 01:02:58.000000000 +0400
++++ b/base/pcap-snoop.c	2017-10-18 12:40:18.000000000 +0400
 @@ -46,10 +46,9 @@
  
  static char *RCSSTRING="$Id: pcap-snoop.c,v 1.14 2002/09/09 21:02:58 ekr Exp $";
@@ -54,9 +55,7 @@ __END__
  #ifndef _WIN32
  #include <sys/param.h>
  #endif
---- a/base/pcap-snoop.c	2012-04-06 10:35:06.000000000 -0700
-+++ b/base/pcap-snoop.c	2012-04-06 10:45:31.000000000 -0700
-@@ -286,7 +286,7 @@
+@@ -286,7 +285,7 @@
            err_exit("Aborting",-1);
          }
        }
@@ -65,28 +64,21 @@ __END__
  	fprintf(stderr,"PCAP: %s\n",errbuf);
  	err_exit("Aborting",-1);
        }
---- a/ssl/ssldecode.c	2013-07-10 14:44:42.000000000 -0400
-+++ b/ssl/ssldecode.c	2013-07-10 14:44:44.000000000 -0400
-@@ -51,6 +51,7 @@
- #include <openssl/ssl.h>
- #include <openssl/hmac.h>
- #include <openssl/evp.h>
-+#include <openssl/md5.h>
- #include <openssl/x509v3.h>
- #endif
- #include "ssldecode.h"
-@@ -131,7 +132,8 @@
-     ssl_decode_ctx *d=0;
-     int r,_status;
-     
--    SSLeay_add_all_algorithms();
-+    SSL_library_init();
-+    OpenSSL_add_all_algorithms();
-     if(!(d=(ssl_decode_ctx *)malloc(sizeof(ssl_decode_ctx))))
-       ABORT(R_NO_MEMORY);
-     if(!(d->ssl_ctx=SSL_CTX_new(SSLv23_server_method())))
---- a/ssl/ssl.enums	2013-07-10 15:43:35.000000000 -0400
-+++ b/ssl/ssl.enums	2013-07-10 15:54:11.000000000 -0400
+diff -Naur a/configure b/configure
+--- a/configure	2001-11-27 02:38:13.000000000 +0400
++++ b/configure	2017-10-18 12:40:37.000000000 +0400
+@@ -1103,7 +1103,7 @@
+ echo "configure:1104: checking for PCAP library" >&5
+ ac_found_pcap_lib_dir="no"
+ for dir in $ac_pcap_lib_dir; do
+-	if test -f $dir/libpcap.a; then
++	if test -f $dir/libpcap.dylib; then
+ 				save_LIBS=$LIBS
+ 		save_LDFLAGS=$LDFLAGS
+ 		LIBS="-lpcap $LIBS"
+diff -Naur a/ssl/ssl.enums b/ssl/ssl.enums
+--- a/ssl/ssl.enums	2001-07-20 20:44:32.000000000 +0400
++++ b/ssl/ssl.enums	2017-10-18 12:40:18.000000000 +0400
 @@ -378,6 +378,141 @@
      CipherSuite	TLS_ECDH_ECDSA_WITH_DES_CBC_SHA  = {0x00,0x49};
      CipherSuite	TLS_ECDH_ECDSA_EXPORT_WITH_RC4_56_SHA={0xff,0x85};
@@ -229,8 +221,9 @@ __END__
    } cipher_suite;  
  
      	   
---- a/ssl/ssl.enums.c	2013-07-10 14:54:38.000000000 -0400
-+++ b/ssl/ssl.enums.c	2013-07-10 15:51:46.000000000 -0400
+diff -Naur a/ssl/ssl.enums.c b/ssl/ssl.enums.c
+--- a/ssl/ssl.enums.c	2001-07-20 20:44:36.000000000 +0400
++++ b/ssl/ssl.enums.c	2017-10-18 12:40:18.000000000 +0400
 @@ -698,6 +698,393 @@
  		65412,
  		"TLS_ECDH_ECDSA_EXPORT_WITH_RC4_40_SHA",
@@ -625,3 +618,24 @@ __END__
  {-1}
  };
  
+diff -Naur a/ssl/ssldecode.c b/ssl/ssldecode.c
+--- a/ssl/ssldecode.c	2002-08-17 05:33:17.000000000 +0400
++++ b/ssl/ssldecode.c	2017-10-18 12:40:18.000000000 +0400
+@@ -51,6 +51,7 @@
+ #include <openssl/ssl.h>
+ #include <openssl/hmac.h>
+ #include <openssl/evp.h>
++#include <openssl/md5.h>
+ #include <openssl/x509v3.h>
+ #endif
+ #include "ssldecode.h"
+@@ -131,7 +132,8 @@
+     ssl_decode_ctx *d=0;
+     int r,_status;
+     
+-    SSLeay_add_all_algorithms();
++    SSL_library_init();
++    OpenSSL_add_all_algorithms();
+     if(!(d=(ssl_decode_ctx *)malloc(sizeof(ssl_decode_ctx))))
+       ABORT(R_NO_MEMORY);
+     if(!(d->ssl_ctx=SSL_CTX_new(SSLv23_server_method())))
