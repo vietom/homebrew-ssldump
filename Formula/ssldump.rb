@@ -28,7 +28,7 @@ class Ssldump < Formula
                           "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
                           "--with-openssl=#{openssl.prefix}",
-                          "--with-pcap=/usr/local/opt/libpcap}",
+                          "--with-pcap=/usr/local/opt/libpcap",
                           "osx"
     system "make"
     bin.install "ssldump"
